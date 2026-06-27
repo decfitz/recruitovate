@@ -3175,7 +3175,7 @@ function Header({
       gap: 28
     }
   }, /*#__PURE__*/React.createElement("a", {
-    href: "index.html",
+    href: "#/",
     style: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -3213,7 +3213,7 @@ function Header({
       gap: 26
     }
   }, /*#__PURE__*/React.createElement("a", {
-    href: "about.html",
+    href: "#/about",
     style: {
       color: navInk,
       textDecoration: 'none',
@@ -3222,7 +3222,7 @@ function Header({
       letterSpacing: '-.01em'
     }
   }, "About"), /*#__PURE__*/React.createElement("a", {
-    href: "testimonials.html",
+    href: "#/testimonials",
     style: {
       color: navInk,
       textDecoration: 'none',
@@ -3488,22 +3488,22 @@ function Services() {
     title: 'Executive Search',
     icon: window.ICONS.search,
     body: 'Structured search for senior and business-critical roles.',
-    href: 'service-executive-search-light.html'
+    href: '#/executive-search'
   }, {
     title: 'Recruitment Advisory',
     icon: window.ICONS.advisory,
     body: 'Improve hiring quality, process and decision-making.',
-    href: 'service-recruitment-advisory-light.html'
+    href: '#/recruitment-advisory'
   }, {
     title: 'Talent Market Intelligence',
     icon: window.ICONS.intel,
     body: 'Map visible and hidden talent markets.',
-    href: 'service-talent-intelligence-light.html'
+    href: '#/talent-intelligence'
   }, {
     title: 'AI Recruitment Advisory',
     icon: window.ICONS.ai,
     body: 'Apply AI to hiring with discipline and judgement.',
-    href: 'service-ai-advisory-light.html'
+    href: '#/ai-advisory'
   }];
   return /*#__PURE__*/React.createElement("section", {
     id: "services",
@@ -3808,7 +3808,7 @@ function ServicePage({
     variant: "secondary",
     arrow: true,
     as: "a",
-    href: "index.html#services"
+    href: "#/"
   }, "All services")))))), /*#__PURE__*/React.createElement("section", {
     style: {
       ...wrap,
@@ -4123,7 +4123,7 @@ function ServicePage({
     className: "ro-incl"
   }, light ? others.map(([k, o]) => /*#__PURE__*/React.createElement("a", {
     key: k,
-    href: 'service-' + k + '-light.html',
+    href: '#/' + k,
     style: {
       minHeight: 252,
       display: 'flex',
@@ -4204,7 +4204,7 @@ function ServicePage({
     key: k,
     title: o.name,
     icon: window.ICONS[o.icon],
-    href: 'service-' + k + '.html'
+    href: '#/' + k
   }, o.summary)))));
 }
 Object.assign(window, {
@@ -6724,8 +6724,18 @@ function useRoute() {
   const [path, setPath] = React.useState(get());
   React.useEffect(() => {
     const on = () => {
-      setPath(get());
-      window.scrollTo(0, 0);
+      const h = get();
+      setPath(h);
+      if (h.replace(/^\//, '') === 'services') {
+        setTimeout(() => {
+          const el = document.getElementById('services');
+          if (el) el.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }, 60);
+      } else {
+        window.scrollTo(0, 0);
+      }
     };
     window.addEventListener('hashchange', on);
     return () => window.removeEventListener('hashchange', on);
